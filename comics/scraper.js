@@ -24,13 +24,39 @@ const RP =
 const agent = RP ? new SocksProxyAgent(RP) : undefined;
 
 async function getPage(url) {
-  const target = `${proxyBase()}/proxy?url=${encodeURIComponent(url)}`;
-  const resp = await axios.get(target, {
-    timeout: 15000,
-    httpAgent: agent,
-    httpsAgent: agent,
-  });
-  return resp.data;
+  const base = proxyBase();
+  const target = `${base}/proxy?url=${encodeURIComponent(url)}`;
+  try {
+    const resp = await axios.get(target, {
+      timeout: 15000,
+      httpAgent: agent,
+      httpsAgent: agent,
+      validateStatus: () => true,
+    });
+    if (resp.status >= 400 || !resp.data) throw new Error(String(resp.status));
+    return resp.data;
+  } catch {
+    const headers = {
+      "User-Agent":
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+      Accept:
+        "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
+      "Accept-Encoding": "gzip, deflate, br",
+      "Accept-Language": "id-ID,id;q=0.9,en-US;q=0.8,en;q=0.7",
+      Connection: "keep-alive",
+      "Upgrade-Insecure-Requests": "1",
+      Referer: url,
+    };
+    const resp2 = await axios.get(url, {
+      timeout: 15000,
+      httpAgent: agent,
+      httpsAgent: agent,
+      headers,
+      validateStatus: () => true,
+    });
+    if (resp2.status >= 400) throw new Error(String(resp2.status));
+    return resp2.data;
+  }
 }
 
 export async function getLatestComics(page = 1) {
