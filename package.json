@@ -1,0 +1,16 @@
+{
+  "name": "scrap-anime-node",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "axios": "1.7.7",
+    "cheerio": "1.0.0",
+    "cors": "2.8.5",
+    "express": "4.19.2",
+    "socks-proxy-agent": "8.0.2"
+  }
+}
