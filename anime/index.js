@@ -8,7 +8,9 @@ router.get('/top-anime', async (req, res) => {
     const data = await getTopAnime()
     res.json({ success: true, data })
   } catch (e) {
-    res.status(500).json({ success: false, error: String(e) })
+    const msg = String(e)
+    const code = /^\d{3}$/.test(msg) && Number(msg) >= 400 ? 502 : 500
+    res.status(code).json({ success: false, error: msg })
   }
 })
 
@@ -18,7 +20,9 @@ router.get('/latest-anime', async (req, res) => {
     const data = await getLatestAnime(page)
     res.json({ success: true, data })
   } catch (e) {
-    res.status(500).json({ success: false, error: String(e) })
+    const msg = String(e)
+    const code = /^\d{3}$/.test(msg) && Number(msg) >= 400 ? 502 : 500
+    res.status(code).json({ success: false, error: msg })
   }
 })
 
@@ -29,7 +33,9 @@ router.get('/anime-details', async (req, res) => {
     const data = await getAnimeDetails(url)
     res.json({ success: true, data })
   } catch (e) {
-    res.status(500).json({ success: false, error: String(e) })
+    const msg = String(e)
+    const code = /^\d{3}$/.test(msg) && Number(msg) >= 400 ? 502 : 500
+    res.status(code).json({ success: false, error: msg })
   }
 })
 
@@ -40,7 +46,9 @@ router.get('/episode-streams', async (req, res) => {
     const data = await getEpisodeStreams(url)
     res.json({ success: true, data })
   } catch (e) {
-    res.status(500).json({ success: false, error: String(e) })
+    const msg = String(e)
+    const code = /^\d{3}$/.test(msg) && Number(msg) >= 400 ? 502 : 500
+    res.status(code).json({ success: false, error: msg })
   }
 })
 
@@ -51,7 +59,9 @@ router.get('/search', async (req, res) => {
     const data = await searchAnime(query)
     res.json({ success: true, data })
   } catch (e) {
-    res.status(500).json({ success: false, error: String(e) })
+    const msg = String(e)
+    const code = /^\d{3}$/.test(msg) && Number(msg) >= 400 ? 502 : 500
+    res.status(code).json({ success: false, error: msg })
   }
 })
 

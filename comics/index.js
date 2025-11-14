@@ -9,7 +9,9 @@ router.get('/latest-comics', async (req, res) => {
     const data = await getLatestComics(page)
     res.json({ success: true, data })
   } catch (e) {
-    res.status(500).json({ success: false, error: String(e) })
+    const msg = String(e)
+    const code = /^\d{3}$/.test(msg) && Number(msg) >= 400 ? 502 : 500
+    res.status(code).json({ success: false, error: msg })
   }
 })
 
@@ -18,7 +20,9 @@ router.get('/popular-comics', async (req, res) => {
     const data = await getPopularComics()
     res.json({ success: true, data })
   } catch (e) {
-    res.status(500).json({ success: false, error: String(e) })
+    const msg = String(e)
+    const code = /^\d{3}$/.test(msg) && Number(msg) >= 400 ? 502 : 500
+    res.status(code).json({ success: false, error: msg })
   }
 })
 
@@ -27,7 +31,9 @@ router.get('/latest-collections', async (req, res) => {
     const data = await getLatestCollections()
     res.json({ success: true, data })
   } catch (e) {
-    res.status(500).json({ success: false, error: String(e) })
+    const msg = String(e)
+    const code = /^\d{3}$/.test(msg) && Number(msg) >= 400 ? 502 : 500
+    res.status(code).json({ success: false, error: msg })
   }
 })
 
@@ -38,7 +44,9 @@ router.get('/comic-details', async (req, res) => {
     const data = await getComicDetails(url)
     res.json({ success: true, data })
   } catch (e) {
-    res.status(500).json({ success: false, error: String(e) })
+    const msg = String(e)
+    const code = /^\d{3}$/.test(msg) && Number(msg) >= 400 ? 502 : 500
+    res.status(code).json({ success: false, error: msg })
   }
 })
 
@@ -50,7 +58,9 @@ router.get('/chapter-images', async (req, res) => {
     if (!data || !Array.isArray(data.images) || !data.images.length) return res.status(500).json({ success: false, error: 'Failed to fetch chapter images', data: {} })
     res.json({ success: true, data })
   } catch (e) {
-    res.status(500).json({ success: false, error: String(e), data: {} })
+    const msg = String(e)
+    const code = /^\d{3}$/.test(msg) && Number(msg) >= 400 ? 502 : 500
+    res.status(code).json({ success: false, error: msg, data: {} })
   }
 })
 
@@ -61,7 +71,9 @@ router.get('/search-comics', async (req, res) => {
     const data = await searchComics(query)
     res.json({ success: true, data })
   } catch (e) {
-    res.status(500).json({ success: false, error: String(e) })
+    const msg = String(e)
+    const code = /^\d{3}$/.test(msg) && Number(msg) >= 400 ? 502 : 500
+    res.status(code).json({ success: false, error: msg })
   }
 })
 

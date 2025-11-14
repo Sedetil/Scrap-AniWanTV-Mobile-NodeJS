@@ -47,6 +47,11 @@ async function getPage(url) {
       "Upgrade-Insecure-Requests": "1",
       Referer: url,
     };
+    try {
+      const u = new URL(url);
+      headers["Host"] = u.hostname;
+    } catch {}
+    if (process.env.PROXY_COOKIES) headers["Cookie"] = process.env.PROXY_COOKIES;
     const resp2 = await axios.get(url, {
       timeout: 15000,
       httpAgent: agent,
