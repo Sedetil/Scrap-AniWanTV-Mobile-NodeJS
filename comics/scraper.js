@@ -4,11 +4,15 @@ import { SocksProxyAgent } from "socks-proxy-agent";
 
 const BASE = "https://komikindo.ch";
 function proxyBase() {
-  if ("PROXY_BASE" in process.env && process.env.PROXY_BASE === "") return "";
-  if (process.env.VERCEL) return "";
-  return (
-    process.env.PROXY_BASE || `http://127.0.0.1:${process.env.PORT || 5000}`
-  );
+  const explicit = process.env.PROXY_BASE;
+  if (explicit) return explicit;
+  if (process.env.VERCEL) {
+    const url = process.env.VERCEL_URL
+      ? `https://${process.env.VERCEL_URL}`
+      : "";
+    return url || `http://127.0.0.1:${process.env.PORT || 5000}`;
+  }
+  return `http://127.0.0.1:${process.env.PORT || 5000}`;
 }
 const RP =
   process.env.RES_PROXY ||
